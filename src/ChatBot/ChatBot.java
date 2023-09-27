@@ -21,5 +21,16 @@ public class ChatBot {
         for (int i = 1; i <= GNumber; i++) {
             System.out.println(String.format("\"%d!\"", i));
         }
+        System.out.println("Now answer my question. How many letters in word \"Java\"?");
+        for (int i = 1; i <= 4; i++) {
+            System.out.println(String.format("%d. %d", i, i));
+        }
+        int i = in.nextInt();;
+        while (i != 4) {
+            System.out.println("Incorrect");
+            i = in.nextInt();
+        }
+        System.out.println("Correct!");
+        System.out.println("Good bye, have a nice day!");
     }
 }
