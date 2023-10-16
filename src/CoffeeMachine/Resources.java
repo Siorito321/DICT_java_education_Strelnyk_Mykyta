@@ -1,50 +1,39 @@
 package CoffeeMachine;
-import java.util.Scanner;
 
 public class Resources {
-    public static int water = 400;
-    public static int milk = 540;
-    public static int beans = 120;
-    public static int money = 550;
-    public static int cups = 9;
+    private int water = 400;
+    private int milk = 540;
+    private int beans = 120;
+    private int money = 550;
+    private int cups = 9;
+    public int row = 0;
 
-    void fill() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Write how many ml of water the coffee machine has: ");
-        String waterS = scanner.nextLine();
-        System.out.print("Write how many ml of milk the coffee machine has: ");
-        String milkS = scanner.nextLine();
-        System.out.print("Write how many g of beans the coffee machine has: ");
-        String beansS = scanner.nextLine();
-        water = Integer.parseInt(waterS);
-        milk = Integer.parseInt(milkS);
-        beans = Integer.parseInt(beansS);
+    void fillAsk() {
+        switch (row) {
+            case 1:
+                System.out.print("Write how many ml of water to add to the coffee machine: ");
+                break;
+            case 2:
+                System.out.print("Write how many ml of milk to add to the coffee machine : ");
+                break;
+            case 3:
+                System.out.print("Write how many g of beans to add to the coffee machine: ");
+                break;
+            case 4:
+                System.out.print("Write how many cups to add to the coffee machine: ");
+                break;
+        }
     }
 
-    void possibleCups() {
-        int[] resourcesForMoment = {water, milk, beans};
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Write how many cups of coffee you want: ");
-        String nCupsS = scanner.nextLine();
-        int nCups = Integer.parseInt(nCupsS);
-        int availableCups = 0;
-        while ((water - 200) >= 0 && (milk - 50) >= 0 && (beans - 15) >= 0) {
-            availableCups ++;
-            water -= 200;
-            milk -= 50;
-            beans -= 15;
+    void fill(String input) {
+        int inputInt = Integer.parseInt(input);
+        switch (row) {
+            case 1 -> water += inputInt;
+            case 2 -> milk += inputInt;
+            case 3 -> beans += inputInt;
+            case 4 -> cups += inputInt;
         }
-        if (availableCups == nCups) {
-            System.out.println("Yes, I can make that amount of coffee");
-        } else if (availableCups < nCups) {
-            System.out.println(String.format("No, I can make only %d cups of coffee ", availableCups));
-        } else {
-            System.out.println(String.format("Yes, I can make that amount of coffee (and even %d more than that) ",
-                    availableCups - nCups));
-        }
-        water = resourcesForMoment[0];
-        milk = resourcesForMoment[1];
-        beans = resourcesForMoment[2];
+        row += 1;
     }
 
     void status() {
@@ -96,7 +85,7 @@ public class Resources {
         }
     }
 
-    String notEnough(int a, int b, int c) {
+    private String notEnough(int a, int b, int c) {
         if ((water - a) < 0) {
             return "water";
         } else if ((milk - b) < 0) {

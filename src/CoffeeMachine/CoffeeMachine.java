@@ -1,47 +1,30 @@
 package CoffeeMachine;
 import java.util.Scanner;
 public class CoffeeMachine {
+    static int state = 1;
+    /*1 - menu, 2 - buy, 3 - fill*/
+
     public static void main (String args[]){
         Resources resources = new Resources();
         while (true) {
-            if (!menu(resources)) {
-                break;
-            };
+            answerHandler(state, resources);
         }
     }
 
-//    static void basicCupCalc() {
-//        System.out.print("Write how many cups you want: ");
-//        Scanner scanner = new Scanner(System.in);
-//        String nCups = scanner.nextLine();
-//        int answer = Integer.parseInt(nCups);
-//        System.out.println(String.format("For %d cups of coffee you will need ", answer));
-//        System.out.println(String.format("%d ml of water", answer * 200));
-//        System.out.println(String.format("%d ml of milk", answer * 50));
-//        System.out.println(String.format("%d g of beans", answer * 15));
-//    }
-
-    static  boolean menu(Resources resources) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Write action (buy, fill, take, remaining, exit):");
-        String answer = scanner.nextLine();
+    static void menu(Resources resources, String answer) {
         switch (answer) {
-            case "buy" -> buy(resources);
-            case "fill" -> resources.fill();
+            case "buy" -> state = 2;
+            case "fill" -> state = 3;
             case "take" -> resources.take();
             case "exit" -> {
-                return false;
+                System.exit(0);
             }
             case "remaining" -> resources.status();
             default -> System.out.println("Incorrect input!");
         }
-        return true;
     }
 
-    static void buy(Resources resources) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino or back to return to main menu:");
-        String answer = scanner.nextLine();
+    static void buy(Resources resources, String answer) {
         switch (answer) {
             case "1":
                 resources.espresso();
@@ -60,6 +43,44 @@ public class CoffeeMachine {
                 break;
             default:
                 System.out.println("Incorrect input!");
+                break;
+        }
+    }
+
+    static void answerHandler(int s, Resources resources) {
+        Scanner scanner = new Scanner(System.in);
+        String[] outputOptions = {"Write action (buy, fill, take, remaining, exit):",
+                "What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino or back to return to main menu:"};
+        switch (s) {
+            case 1:
+                System.out.println(outputOptions[0]);
+                break;
+            case 2:
+                System.out.println(outputOptions[1]);
+                break;
+            case 3:
+                if (resources.row == 0) {
+                    resources.row = 1;
+                }
+                resources.fillAsk();
+                break;
+        }
+        String answer = scanner.nextLine();
+
+        switch (s) {
+            case 1:
+                menu(resources, answer);
+                break;
+            case 2:
+                buy(resources, answer);
+                state = 1;
+                break;
+            case 3:
+                resources.fill(answer);
+                if (resources.row > 4) {
+                    resources.row = 0;
+                    state = 1;
+                }
                 break;
         }
     }
