@@ -2,7 +2,9 @@ package CoffeeMachine;
 import java.util.Scanner;
 public class CoffeeMachine {
     public static void main (String args[]){
-        basicCupCalc();
+        IngredientStatus ingredients = new IngredientStatus();
+        ingredients.fill();
+        ingredients.possibleCups();
     }
 
     static void basicCupCalc() {
