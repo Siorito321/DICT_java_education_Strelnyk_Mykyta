@@ -57,6 +57,7 @@ public class Resources {
     }
 
     void take() {
+        System.out.println("I gave you " + money + " grn");
         money = 0;
     }
 
@@ -67,7 +68,7 @@ public class Resources {
             cups -= 1;
             money += 4;
         } else {
-            System.out.println("Not enough ingredients");
+            System.out.println("Sorry, not enough " + notEnough(250, 0, 16));
         }
     }
 
@@ -79,7 +80,7 @@ public class Resources {
             cups -= 1;
             money += 7;
         } else {
-            System.out.println("Not enough ingredients");
+            System.out.println("Sorry, not enough " + notEnough(200, 100, 12));
         }
     }
 
@@ -91,7 +92,19 @@ public class Resources {
             cups -= 1;
             money += 6;
         } else {
-            System.out.println("Not enough ingredients");
+            System.out.println("Sorry, not enough " + notEnough(200, 100, 12));
+        }
+    }
+
+    String notEnough(int a, int b, int c) {
+        if ((water - a) < 0) {
+            return "water";
+        } else if ((milk - b) < 0) {
+            return "milk";
+        } else if ((beans - c) < 0) {
+            return "beans";
+        } else {
+            return "cups";
         }
     }
 }
