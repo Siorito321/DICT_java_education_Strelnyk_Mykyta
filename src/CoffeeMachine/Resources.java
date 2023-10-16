@@ -1,10 +1,12 @@
 package CoffeeMachine;
 import java.util.Scanner;
 
-public class IngredientStatus {
-    int water;
-    int milk;
-    int beans;
+public class Resources {
+    public static int water = 400;
+    public static int milk = 540;
+    public static int beans = 120;
+    public static int money = 550;
+    public static int cups = 9;
 
     void fill() {
         Scanner scanner = new Scanner(System.in);
@@ -43,5 +45,53 @@ public class IngredientStatus {
         water = resourcesForMoment[0];
         milk = resourcesForMoment[1];
         beans = resourcesForMoment[2];
+    }
+
+    void status() {
+        System.out.print("The coffee machine has: ");
+        System.out.println(String.format("%d ml of water", water));
+        System.out.println(String.format("%d ml of milk", milk));
+        System.out.println(String.format("%d g of beans", beans));
+        System.out.println(String.format("%d cups", cups));
+        System.out.println(String.format("%d grn of money", money));
+    }
+
+    void take() {
+        money = 0;
+    }
+
+    void espresso() {
+        if ((water - 250) >= 0 && (beans - 16) >= 0) {
+            water -= 250;
+            beans -= 16;
+            cups -= 1;
+            money += 4;
+        } else {
+            System.out.println("Not enough ingredients");
+        }
+    }
+
+    void latte() {
+        if ((water - 350) >= 0 && (milk - 75) >= 0 && (beans - 20) >= 0) {
+            water -= 350;
+            milk -= 75;
+            beans -= 20;
+            cups -= 1;
+            money += 7;
+        } else {
+            System.out.println("Not enough ingredients");
+        }
+    }
+
+    void cappuccino() {
+        if ((water - 200) >= 0 && (milk - 100) >= 0 && (beans - 12) >= 0) {
+            water -= 200;
+            milk -= 100;
+            beans -= 12;
+            cups -= 1;
+            money += 6;
+        } else {
+            System.out.println("Not enough ingredients");
+        }
     }
 }
