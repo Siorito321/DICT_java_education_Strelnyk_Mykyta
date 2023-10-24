@@ -5,30 +5,11 @@ import java.util.Arrays;
 
 public class WinnerChooser {
     public char winnerIs(char[][] arr) {
-        /*n - next move, d - draw, i-impossible*/
+        /*n - next move, d - draw*/
 
-        System.out.println(Arrays.deepToString(arr));
-        int[] helpVar = new int[2];
-        /*allows to understand if there are double winners or other similar impossible scenarios*/
         char[] players = {'x', '0'};
-        int iterator = 0;
-            for (char player : players) {
-                if (ifRow(arr, player)) {
-                    helpVar[iterator]++;
-                }
-                if (ifColumn(arr, player)) {
-                    helpVar[iterator]++;
-                }
-                if (ifDiagonal(arr, player)) {
-                    helpVar[iterator]++;
-                }
-                iterator++;
-            }
-            if (!(helpVar[0] > 0 && helpVar[1] > 0)) {
+            if (ifSpaceLeft(arr)) {
                 for (char player1 : players) {
-                    if (ifSpaceLeft(arr)) {
-                        return 'n';
-                    }
                     if (ifRow(arr, player1)) {
                         return player1;
                     } else if (ifColumn(arr, player1)) {
@@ -37,10 +18,9 @@ public class WinnerChooser {
                         return player1;
                     }
                 }
-            } else {
-                return 'i';
-        }
-        return 'n';
+                return 'n';
+            }
+        return 'd';
     }
 
     private boolean ifRow(char[][] arr, char ch) {
