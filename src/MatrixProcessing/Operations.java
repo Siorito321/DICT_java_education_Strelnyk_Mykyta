@@ -17,4 +17,14 @@ public class Operations {
         }
         return finalMatrix;
     }
+
+    public static int[][] matrixOnConstant(int[][] matrix, int constanta) {
+        int[][] finalMatrix = new int[matrix.length][matrix[0].length];
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[0].length; col++) {
+                finalMatrix[row][col] = matrix[row][col] * constanta;
+            }
+        }
+        return finalMatrix;
+    }
 }
