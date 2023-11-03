@@ -12,7 +12,7 @@ public class Main {
         char operation;
         System.out.println("Choose the operation you want to perform");
         System.out.println("1 - Sum of two matrices, 2 - Multiply matrix by constant, 3 - Multiply matrix by matrix");
-        System.out.println("4 - Transpose the matrix");
+        System.out.println("4 - Transpose the matrix, 5- Calculate the determinant");
         operation = scanner.nextLine().charAt(0);
 
         switch (operation) {
@@ -78,6 +78,11 @@ public class Main {
                         System.out.println("Invalid operation choice");
                         break;
                 }
+                break;
+            case '5':
+                double result9 = operations.calculateDeterminant(matrix1);
+                System.out.print("So, the determinant of this matrix is ");
+                System.out.println(result9);
                 break;
         }
     }

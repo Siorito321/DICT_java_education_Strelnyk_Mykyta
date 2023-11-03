@@ -110,6 +110,51 @@ public class operations {
         }
         return finalMatrix;
     }
+
+    public double calculateDeterminant(int[][] matrix) {
+        try {
+            if (matrix[0].length != matrix.length) {
+                throw new Exception("For this  operation you need to use square matrix only!");
+            }
+        } catch (Exception ex) {
+            ifException(ex);
+        }
+        int n = matrix.length;
+        if (n == 1) {
+            return matrix[0][0];
+        } else if (n == 2) {
+            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        } else {
+            double det = 0;
+            for (int j = 0; j < n; j++) {
+                int sign = (int) Math.pow(-1, j);
+                double minor = calculateMinor(matrix, 0, j);
+                det += (double)sign * (double)matrix[0][j] * minor;
+            }
+            return det;
+        }
+    }
+
+    private double calculateMinor(int[][] matrix, int i, int j) {
+        int[][] minor = new int[matrix.length - 1][matrix[0].length - 1];
+        int minorRow = 0;
+        for (int row_idx = 0; row_idx < matrix.length; row_idx++) {
+            if (row_idx == i) {
+                continue;
+            }
+            int minorCol = 0;
+            for (int col_idx = 0; col_idx < matrix[row_idx].length; col_idx++) {
+                if (col_idx == j) {
+                    continue;
+                }
+                minor[minorRow][minorCol] = matrix[row_idx][col_idx];
+                minorCol++;
+            }
+            minorRow++;
+        }
+        return calculateDeterminant(minor);
+    }
+
     private void ifException(Exception ex) {
         System.out.println(ex.getMessage()); System.exit(1);
     }
