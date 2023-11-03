@@ -1,7 +1,7 @@
 package MatrixProcessing;
 
 public class operations {
-    public int[][] matrixSum(int[][] matrix1, int[][] matrix2) {
+    public double[][] matrixSum(double[][] matrix1, double[][] matrix2) {
         try {
             if ((matrix1.length != matrix2.length) || (matrix1[1].length != matrix2[1].length)) {
                 throw new Exception("Dimensions are not the same!");
@@ -9,7 +9,7 @@ public class operations {
         } catch (Exception ex) {
             ifException(ex);
         }
-        int[][] finalMatrix = new int[matrix1.length][matrix1[0].length];
+        double[][] finalMatrix = new double[matrix1.length][matrix1[0].length];
         for (int row = 0; row < matrix1.length; row++) {
             for (int col = 0; col < matrix1[0].length; col++) {
                 finalMatrix[row][col] = matrix1[row][col] + matrix2[row][col];
@@ -18,8 +18,8 @@ public class operations {
         return finalMatrix;
     }
 
-    public int[][] matrixOnConstant(int[][] matrix, int constanta) {
-        int[][] finalMatrix = new int[matrix.length][matrix[0].length];
+    public double[][] matrixOnConstant(double[][] matrix, int constanta) {
+        double[][] finalMatrix = new double[matrix.length][matrix[0].length];
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[0].length; col++) {
                 finalMatrix[row][col] = matrix[row][col] * constanta;
@@ -28,7 +28,7 @@ public class operations {
         return finalMatrix;
     }
 
-    public int[][] matrixOnMatrix(int[][] matrix1, int[][] matrix2) {
+    public double[][] matrixOnMatrix(double[][] matrix1, double[][] matrix2) {
         try {
             if (matrix2.length != matrix1[0].length) {
                 throw new IllegalArgumentException("These matrices cannot be multiplied!");
@@ -37,7 +37,7 @@ public class operations {
             ifException(ex);
         }
 
-        int[][] finalMatrix = new int[matrix1.length][matrix2[0].length];
+        double[][] finalMatrix = new double[matrix1.length][matrix2[0].length];
 
         for (int i = 0; i < matrix1.length; i++) {
             for (int j = 0; j < matrix2[0].length; j++) {
@@ -50,8 +50,8 @@ public class operations {
     }
 
 
-    public int[][] transposeByMain(int[][] matrix) {
-        int[][] finalMatrix = new int[matrix[0].length][matrix.length];
+    public double[][] transposeByMain(double[][] matrix) {
+        double[][] finalMatrix = new double[matrix[0].length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int b = 0; b < matrix[0].length; b++) {
                 finalMatrix[b][i] = matrix[i][b];
@@ -60,7 +60,7 @@ public class operations {
         return finalMatrix;
     }
 
-    public int[][] transposeBySecondary(int[][] matrix) {
+    public double[][] transposeBySecondary(double[][] matrix) {
         try {
             if (matrix[0].length != matrix.length) {
                 throw new Exception("For this  operation you need to use square matrix only!");
@@ -68,7 +68,7 @@ public class operations {
         } catch (Exception ex) {
             ifException(ex);
         }
-        int[][] finalMatrix = new int[matrix[0].length][matrix.length];
+        double[][] finalMatrix = new double[matrix[0].length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int b = 0; b < matrix.length; b++) {
                 finalMatrix[matrix.length-i-1][matrix.length-1-b] = matrix[i][b];
@@ -77,7 +77,7 @@ public class operations {
         return finalMatrix;
     }
 
-    public int[][] transposeByVertical(int[][] matrix) {
+    public double[][] transposeByVertical(double[][] matrix) {
         try {
             if (matrix[0].length != matrix.length) {
                 throw new Exception("For this  operation you need to use square matrix only!");
@@ -85,7 +85,7 @@ public class operations {
         } catch (Exception ex) {
             ifException(ex);
         }
-        int[][] finalMatrix = new int[matrix[0].length][matrix.length];
+        double[][] finalMatrix = new double[matrix[0].length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int b = 0; b < matrix.length; b++) {
                 finalMatrix[i][matrix.length-1-b] = matrix[i][b];
@@ -94,7 +94,7 @@ public class operations {
         return finalMatrix;
     }
 
-    public int[][] transposeByHorizontal(int[][] matrix) {
+    public double[][] transposeByHorizontal(double[][] matrix) {
         try {
             if (matrix[0].length != matrix.length) {
                 throw new Exception("For this  operation you need to use square matrix only!");
@@ -102,7 +102,7 @@ public class operations {
         } catch (Exception ex) {
             ifException(ex);
         }
-        int[][] finalMatrix = new int[matrix[0].length][matrix.length];
+        double[][] finalMatrix = new double[matrix[0].length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 finalMatrix[i][j] = matrix[i][matrix.length - j - 1];
@@ -111,7 +111,7 @@ public class operations {
         return finalMatrix;
     }
 
-    public double calculateDeterminant(int[][] matrix) {
+    public double calculateDeterminant(double[][] matrix) {
         try {
             if (matrix[0].length != matrix.length) {
                 throw new Exception("For this  operation you need to use square matrix only!");
@@ -135,8 +135,8 @@ public class operations {
         }
     }
 
-    private double calculateMinor(int[][] matrix, int i, int j) {
-        int[][] minor = new int[matrix.length - 1][matrix[0].length - 1];
+    private double calculateMinor(double[][] matrix, int i, int j) {
+        double[][] minor = new double[matrix.length - 1][matrix[0].length - 1];
         int minorRow = 0;
         for (int row_idx = 0; row_idx < matrix.length; row_idx++) {
             if (row_idx == i) {
@@ -154,6 +154,40 @@ public class operations {
         }
         return calculateDeterminant(minor);
     }
+
+
+    public double[][] invertible(double[][] matrix) {
+        double det = calculateDeterminant(matrix);
+
+        try {if (det == 0) {
+            throw new Exception("This matrix can't be inverted");
+        }
+        }catch (Exception ex){
+            ifException(ex);
+        }
+        int n = matrix.length;
+        double[][] result = new double[n][n];
+        double[][] soyuz = new double[n][n];
+
+        for (int j = 0; j < n; j++) {
+            for (int k = 0; k < n; k++) {
+                int sign = (int) Math.pow(-1, j + k);
+                double minor = calculateMinor(matrix, j, k);
+                soyuz[j][k] += (double)sign * minor;
+            }
+        }
+
+        soyuz = transposeByMain(soyuz);
+
+        for (int i = 0; i < n; i++) {
+            for (int b = 0; b < n; b++) {
+                result[i][b] += (soyuz[i][b] / det);
+            }
+        }
+
+        return result;
+    }
+
 
     private void ifException(Exception ex) {
         System.out.println(ex.getMessage()); System.exit(1);

@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Parser {
 
-    public int[][] basicParser() throws Exception {
+    public double[][] basicParser() throws Exception {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter number of dimensions (example: \"1 3\")");
         String[] dimensionsBuffer = scanner.nextLine().split(" ");
@@ -17,10 +17,10 @@ public class Parser {
             catch (java.lang.NumberFormatException e) {System.out.println("You should enter two numbers!");
                 System.exit(1);}
         }
-        int[][] matrix = new int[dimensions[0]][dimensions[1]];
+        double[][] matrix = new double[dimensions[0]][dimensions[1]];
         String[] matrixString = new String[dimensions[0]];
         for (int i = 0; i < matrixString.length; i++) {
-            System.out.println(String.format("Enter the %d row: ", i + 1));
+            System.out.printf("Enter the %d row: %n", i + 1);
             String row = scanner.nextLine();
             try {matrix[i] = stringToArray(row, dimensions[1]);}
             catch (Exception ex) {ifException(ex);}
@@ -37,16 +37,16 @@ public class Parser {
         }
         return matrix;
     }
-    private static int[] stringToArray(String str, int dim) throws Exception {
+    private static double[] stringToArray(String str, int dim) throws Exception {
         String[] numbersArray = str.split(" ");
         if (numbersArray.length != dim) {throw new Exception("Incorrect number of numbers");}
-        int[] finalRow = new int[numbersArray.length];
+        double[] finalRow = new double[numbersArray.length];
         for (int i = 0; i < numbersArray.length; i++) {
             try {
                 if (!numbersArray[i].matches("[0-9]+")) {
                     throw new Exception("You should enter only numbers!");
                 }  else {
-                    finalRow[i] = Integer.parseInt(numbersArray[i]);
+                    finalRow[i] = Double.parseDouble(numbersArray[i]);
                 }
             } catch (Exception ex) {
                 ifException(ex);
