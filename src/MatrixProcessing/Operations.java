@@ -27,4 +27,26 @@ public class Operations {
         }
         return finalMatrix;
     }
+
+    public static int[][] matrixOnMatrix(int[][] matrix1, int[][] matrix2) {
+        try {
+            if (matrix2.length != matrix1[0].length) {
+                throw new IllegalArgumentException("These matrices cannot be multiplied!");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage()); System.exit(1);
+        }
+
+        int[][] finalMatrix = new int[matrix1.length][matrix2[0].length];
+
+        for (int i = 0; i < matrix1.length; i++) {
+            for (int j = 0; j < matrix2[0].length; j++) {
+                for (int k = 0; k < matrix2.length; k++) {
+                    finalMatrix[i][j] += matrix1[i][k] * matrix2[k][j];
+                }
+            }
+        }
+        return finalMatrix;
+    }
+
 }
