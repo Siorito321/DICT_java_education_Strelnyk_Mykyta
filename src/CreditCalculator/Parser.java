@@ -1,78 +1,56 @@
 package CreditCalculator;
-import org.apache.commons.cli.*;
-import java.util.Scanner;
+import java.util.Hashtable;
+import java.util.Objects;
 public class Parser {
-//    public void userConsoleInput() {
-//        Options options = new Options();
-//        options.addOption("t", false, "The type of payment: 'annuity' or 'diff'");
-//        options.addOption("payment", false, "The monthly payment amount");
-//        options.addOption("principal", false, "The loan principal amount");
-//        options.addOption("periods", false, "The number of payments required to pay off the loan");
-//        options.addOption("interest", false, "The annual interest rate");
-//
-//        CommandLineParser parser = new DefaultParser();
-//
-//        try {
-//            CommandLine cmd = parser.parse(options, args);
-//        } catch (ParseException e) {
-//            System.err.println("Error parsing command line options: " + e.getMessage());
-//        }
-//    }
-//    }
+    public void consoleParser(String[] args) {
+        System.out.println("Usage: java CreditCalculator -type=<type> -principal=<principal> -payment=<payment> -periods=<periods> -interest=<interest>");
+        int n_of_params = args.length;
+        Hashtable<String, String> key_value = new Hashtable<>();
+        for (int i = 0; i < n_of_params; i++) {
+            String[] keyValueArray = args[i].split("=");
+            key_value.put(keyValueArray[0], keyValueArray[1]);
+        }
+       Operations operations = new Operations();
+        String payment = key_value.get("-payment");
+        String principal = key_value.get("-principal");
+        String periods = key_value.get("-periods");
+        String interest = key_value.get("-interest");
 
-    public void userInput() {
-        float[] answers = new float[5];
-        //0 loan principal 1 monthly payment 2 n-of-payments(vary from context) 3 loan interest 4 annuity payment
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("What do you want to calculate?");
-        System.out.println("type \"m\" – for number of monthly payments,");
-        System.out.println("type \"a\" – for the annuity monthly payment:");
-        System.out.println("type \"p\" – for the loan principal:");
-        char operation = scanner.nextLine().charAt(0);
-        try {
-            if (operation != 'm' && operation != 'a' && operation != 'p') {
-                throw new Exception("Incorrect operation");
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        if (key_value.containsKey("-type")) {
+            System.out.println("Incorrect parameters!");
+            System.exit(1);
+        } else if (Objects.equals(key_value.get("-type"), "diff") && !(key_value.containsKey("-payment"))) {
+            System.out.println("Incorrect parameters!");
+            System.exit(1);
+        } else if (!(key_value.containsKey("-interest"))){
+            System.out.println("Incorrect parameters!");
             System.exit(1);
         }
-
         try {
-            if (operation == 'a' | operation == 'm') {
-                System.out.println("Enter loan principle");
-                answers[0] = Float.parseFloat(scanner.nextLine());
+            switch (key_value.get("-type")) {
+                case "diff":
+                    if (interest != null && periods != null && principal != null) {
+                        operations.differentialPayment(Float.parseFloat(interest), Float.parseFloat(periods), Float.parseFloat(principal));
+                    } else {
+                        System.out.println("Incorrect parameters");
+                    }
+                    break;
+                case "annuity":
+                    if (payment == null && periods != null && principal != null && interest != null) {
+                        operations.annuity(Float.parseFloat(interest), Float.parseFloat(periods), Float.parseFloat(principal));
+                    }
+                    if (principal == null && interest != null && periods != null && payment != null) {
+                        operations.principal(Float.parseFloat(interest), Float.parseFloat(periods), Float.parseFloat(payment));
+                    }
+                    if (interest != null && payment != null && principal != null) {
+                        operations.number_of_payments(Float.parseFloat(principal), Float.parseFloat(payment), Float.parseFloat(interest));
+                    } else {
+                        System.out.println("Incorrect parameters");
+                    }
+                    break;
             }
-            if (operation == 'p') {
-                System.out.println("Enter the annuity payment:");
-                answers[4] = Float.parseFloat(scanner.nextLine());
-            }
-            if (operation == 'a' | operation == 'p') {
-                System.out.println("Enter the number of periods:");
-                answers[2] = Float.parseFloat(scanner.nextLine());
-            }
-            if (operation == 'm') {
-                System.out.println("Enter the monthly payment:");
-                answers[1] = Float.parseFloat(scanner.nextLine());
-            }
-            System.out.println("Enter the loan interest:");
-            answers[3] = Float.parseFloat(scanner.nextLine());
-        } catch (NumberFormatException ex) {System.out.println("You should have entered numbers only, not gibberish!");}
-        parserHandler(operation, answers);
-    }
-
-    public void parserHandler(char operation, float[] values) {
-        Operations operations = new Operations();
-        switch (operation) {
-            case 'm' :
-                operations.number_of_payments(values[0], values[1], values[3]);
-                break;
-            case 'a' :
-                operations.annuity(values[3], values[2], values[0]);
-                break;
-            case 'p' :
-                operations.principal(values[3], values[2], values[4]);
-                break;
+        } catch (NumberFormatException ex) {
+            System.out.println("Parameters should be numbers!");
         }
     }
 }

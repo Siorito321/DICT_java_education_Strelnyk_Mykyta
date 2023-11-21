@@ -23,4 +23,15 @@ public class Operations {
         double p = a / ( (i * Math.pow((double)(1 + i), (double)n)) / (Math.pow((double)(1 + i), (double)n) - 1));
         System.out.println("Your loan principal is " + Math.ceil(p) + "!");
     }
+
+    public void differentialPayment(float i, float n, float p) {
+        float D;
+        float total = 0;
+        for (int m = 0; m < n; m++) {
+            D = (p / n) + i * (p - (p * (m - 1) / n));
+            System.out.println("Month " + (m + 1) + ": payment is " + D);
+            total += D;
+        }
+        System.out.println("Overpayment is " + (total - p));
+    }
 }
