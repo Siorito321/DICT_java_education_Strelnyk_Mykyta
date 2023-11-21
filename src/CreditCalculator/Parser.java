@@ -21,36 +21,69 @@ public class Parser {
 //    }
 
     public void userInput() {
+        float[] answers = new float[5];
+        //0 loan principal 1 monthly payment 2 n-of-payments(vary from context) 3 loan interest 4 annuity payment
         Operations operations = new Operations();
         Scanner scanner = new Scanner(System.in);
-        int principal = 0;
-        System.out.println("Enter the loan principal:");
-        try {principal = Integer.parseInt(scanner.nextLine());}
-        catch (NumberFormatException n) {
-            System.out.println("It should be a number!");
-            System.exit(1);
-        }
         System.out.println("What do you want to calculate?");
         System.out.println("type \"m\" – for number of monthly payments,");
-        System.out.println("type \"p\" – for the monthly payment:");
+        System.out.println("type \"a\" – for the annuity monthly payment:");
+        System.out.println("type \"p\" – for the loan principal:");
         char operation = scanner.nextLine().charAt(0);
         try {
-            if (operation != 'm' && operation != 'p') {
+            if (operation != 'm' && operation != 'a' && operation != 'p') {
                 throw new Exception("Incorrect operation");
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             System.exit(1);
         }
+//        switch (operation) {
+//            case 'p' :
+//                System.out.println("Enter the monthly payment:");
+//                float months = scanner.nextFloat();
+//                System.out.println("The monthly payment is " + operations.payments(months, (float)principal));
+//            case 'm' :
+//                System.out.println("Enter the monthly payment:");
+//                float payment = scanner.nextFloat();
+//                operations.number_of_payments((float)principal,payment);
+//        }
+        if (operation == 'a' | operation == 'm') {
+            System.out.println("Enter loan principle");
+            answers[0] = Float.parseFloat(scanner.nextLine());
+        }
+        if (operation == 'p') {
+            System.out.println("Enter the annuity payment:");
+            answers[4] = Float.parseFloat(scanner.nextLine());
+        }
+        if (operation == 'm') {
+            System.out.println("Enter the monthly payment:");
+            answers[1] = Float.parseFloat(scanner.nextLine());
+        }
+        if (operation == 'a' | operation == 'p') {
+            System.out.println("Enter the number of periods:");
+            answers[2] = Float.parseFloat(scanner.nextLine());
+        }
+        if (operation == 'p' | operation == 'a') {
+            System.out.println("Enter the loan interest:");
+            answers[3] = Float.parseFloat(scanner.nextLine());
+        }
+
+        parserHandler(operation, answers);
+    }
+
+    public void parserHandler(char operation, float[] values) {
+        Operations operations = new Operations();
         switch (operation) {
-            case 'p' :
-                System.out.println("Enter the monthly payment:");
-                float months = scanner.nextFloat();
-                System.out.println("The monthly payment is " + operations.payments(months, (float)principal));
             case 'm' :
-                System.out.println("Enter the monthly payment:");
-                float payment = scanner.nextFloat();
-                operations.number_of_payments((float)principal,payment);
+                operations.number_of_payments(values[0], values[1]);
+                break;
+            case 'a' :
+                operations.annuity(values[3], values[2], values[0]);
+                break;
+            case 'p' :
+                operations.principal(values[3], values[2], values[4]);
+                break;
         }
     }
 }
