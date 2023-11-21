@@ -16,7 +16,7 @@ public class Parser {
         String periods = key_value.get("-periods");
         String interest = key_value.get("-interest");
 
-        if (key_value.containsKey("-type")) {
+        if (!(key_value.containsKey("-type"))) {
             System.out.println("Incorrect parameters!");
             System.exit(1);
         } else if (Objects.equals(key_value.get("-type"), "diff") && !(key_value.containsKey("-payment"))) {
