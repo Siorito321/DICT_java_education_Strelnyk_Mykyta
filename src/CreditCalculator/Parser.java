@@ -23,7 +23,6 @@ public class Parser {
     public void userInput() {
         float[] answers = new float[5];
         //0 loan principal 1 monthly payment 2 n-of-payments(vary from context) 3 loan interest 4 annuity payment
-        Operations operations = new Operations();
         Scanner scanner = new Scanner(System.in);
         System.out.println("What do you want to calculate?");
         System.out.println("type \"m\" – for number of monthly payments,");
@@ -38,37 +37,27 @@ public class Parser {
             System.out.println(ex.getMessage());
             System.exit(1);
         }
-//        switch (operation) {
-//            case 'p' :
-//                System.out.println("Enter the monthly payment:");
-//                float months = scanner.nextFloat();
-//                System.out.println("The monthly payment is " + operations.payments(months, (float)principal));
-//            case 'm' :
-//                System.out.println("Enter the monthly payment:");
-//                float payment = scanner.nextFloat();
-//                operations.number_of_payments((float)principal,payment);
-//        }
-        if (operation == 'a' | operation == 'm') {
-            System.out.println("Enter loan principle");
-            answers[0] = Float.parseFloat(scanner.nextLine());
-        }
-        if (operation == 'p') {
-            System.out.println("Enter the annuity payment:");
-            answers[4] = Float.parseFloat(scanner.nextLine());
-        }
-        if (operation == 'm') {
-            System.out.println("Enter the monthly payment:");
-            answers[1] = Float.parseFloat(scanner.nextLine());
-        }
-        if (operation == 'a' | operation == 'p') {
-            System.out.println("Enter the number of periods:");
-            answers[2] = Float.parseFloat(scanner.nextLine());
-        }
-        if (operation == 'p' | operation == 'a') {
+
+        try {
+            if (operation == 'a' | operation == 'm') {
+                System.out.println("Enter loan principle");
+                answers[0] = Float.parseFloat(scanner.nextLine());
+            }
+            if (operation == 'p') {
+                System.out.println("Enter the annuity payment:");
+                answers[4] = Float.parseFloat(scanner.nextLine());
+            }
+            if (operation == 'a' | operation == 'p') {
+                System.out.println("Enter the number of periods:");
+                answers[2] = Float.parseFloat(scanner.nextLine());
+            }
+            if (operation == 'm') {
+                System.out.println("Enter the monthly payment:");
+                answers[1] = Float.parseFloat(scanner.nextLine());
+            }
             System.out.println("Enter the loan interest:");
             answers[3] = Float.parseFloat(scanner.nextLine());
-        }
-
+        } catch (NumberFormatException ex) {System.out.println("You should have entered numbers only, not gibberish!");}
         parserHandler(operation, answers);
     }
 
@@ -76,7 +65,7 @@ public class Parser {
         Operations operations = new Operations();
         switch (operation) {
             case 'm' :
-                operations.number_of_payments(values[0], values[1]);
+                operations.number_of_payments(values[0], values[1], values[3]);
                 break;
             case 'a' :
                 operations.annuity(values[3], values[2], values[0]);

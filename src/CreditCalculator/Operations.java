@@ -7,12 +7,14 @@ public class Operations {
         System.out.println("Your annual payment is " + Math.ceil(a) + "!");
     }
 
-    public void number_of_payments(float principal, float payment ) {
-        float n_months = principal / payment;
-        System.out.println("You need to pay your loan for " + Math.ceil(n_months) + " months");
-        if (!(n_months % 1 > 0)) {
-            float lastpayment = principal - (n_months - 1) * payment;
-            System.out.println("The last payment is " + Math.ceil(lastpayment) + "$");
+    public void number_of_payments(float principal, float monthly_payment, float interest) {
+        interest = interest / 1200;
+        double n_months = Math.log(monthly_payment / (monthly_payment - (interest * principal))) / Math.log(1 + interest);
+        if (n_months < 12) {
+            System.out.println("You need to pay your loan for " + Math.ceil(n_months) + " months");
+        } else {
+            System.out.println("You need to pay your loan for " + Math.floor(n_months / 12)
+                    + " years and " + (Math.ceil(n_months % 12)) + " months");
         }
     }
 
